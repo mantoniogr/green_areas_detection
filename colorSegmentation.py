@@ -2,37 +2,32 @@ import cv2
 import numpy as np
 
 # Read image
-img1 = cv2.imread('vlcsnap-2015-02-26-18h00m13s99.png')
-cv2.imshow("Original", img1)
+img = cv2.imread('images/lena.png')
 
 # Image from RGB to HSV
-imgHSV = cv2.cvtColor(img1, cv2.COLOR_RGB2HSV)
+imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-# Min and Max H values
-minimo = 72.5
-maximo = 100
+# Min and max H values
+min = 133
+max = 168
 
-# Initialize numero
-numero = 0
+# Initialize num
+num = 0
 
 # Look for pixels in H range and change values to 0
-for j in range(0, img1.shape[0]):
-    for i in range(0, img1.shape[1]):
-        if imgHSV[j,i,0] > minimo and imgHSV[j,i,0] < maximo:
+for j in range(0, img.shape[0]):
+    for i in range(0, img.shape[1]):
+        if imgHSV[j,i,0] > min and imgHSV[j,i,0] < max:
             imgHSV[j,i,0] = 0
-            numero=numero+1
+            imgHSV[j,i,1] = 200
+            num = num + 1
 
-# Image from HSV to RGB            
-imgRGB = cv2.cvtColor(imgHSV, cv2.COLOR_HSV2RGB)
-
-cv2.imshow("Modificada", imgRGB)
+# Image from HSV to BGR
+imgBGR = cv2.cvtColor(imgHSV, cv2.COLOR_HSV2BGR)
 
 # Print count of pixels changed
-print "-> pixels: " + str(numero)
+print("-> pixels: " + str(num))
 
 # Save image
-cv2.imwrite('test.png', imgRGB)
+cv2.imwrite('images/result.png', imgBGR)
 
-# End of program
-cv2.waitKey(0)
-cv2.destroyAllWindows()

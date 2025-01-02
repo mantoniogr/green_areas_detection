@@ -1,42 +1,54 @@
 import cv2
-import numpy as np
+import matplotlib.pyplot as plt
+
+# Use Agg backend for headless environments
+import matplotlib
+matplotlib.use('Agg')
 
 # Image
 imgName = 'images/lena.png'
-img1 = cv2.imread(imgName)
-# cv2.imshow("Test", img1)
+img = cv2.imread(imgName)
 
-# Get interest coordinates
-x1 = 0
-x2 = 100
-y1 = 0
-y2 = 100
+# Convert BGR to RGB (matplotlib expects RGB format)
+img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-# Coordinates from str to inn
-x1 = int(x1)
-x2 = int(x2)
-y1 = int(y1)
-y2 = int(y2)
+# Set roi coordinates
+x1 = 200
+x2 = 230
+y1 = 200
+y2 = 230
 
-# Image from RGB to HSV
-imgHSV = cv2.cvtColor(img1, cv2.COLOR_RGB2HSV)
+# Display the roi using matplotlib
+cv2.rectangle(img_rgb, (x1, y1), (x2, y2), (255, 0, 0), 2)
+plt.imshow(img_rgb)
+plt.title("RGB image")
+plt.axis("off")  # Hide axes for a cleaner display
+plt.savefig("images/imageRGB.png")  # Save the plot to a file
+
+# Image from BRG to HSV
+imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+
+# Extract ROI Hue values
+roi_hue = imgHSV[y1:y2, x1:x2, 0]
+
+# Display the image using matplotlib
+plt.imshow(imgHSV)
+plt.title("HSV image")
+plt.axis("off")  # Hide axes for a cleaner display
+plt.savefig("images/imageHSV.png")  # Save the plot to a file
 
 # Initialize min and max
-minimo = 360
-maximo = 0
+min = 360
+max = 0
 
 # Get min and max from image section
 for j in range(y1, y2):
    for i in range(x1, x2):
-       if imgHSV[j,i,0] > maximo:
-           maximo = imgHSV[j,i,0]
-       if imgHSV[j,i,0] < minimo:
-           minimo = imgHSV[j,i,0]
+       if imgHSV[j,i,0] > max:
+           max = imgHSV[j,i,0]
+       if imgHSV[j,i,0] < min:
+           min = imgHSV[j,i,0]
 
 # Print min and max
-print("-> Valor minimo: " + str(minimo))
-print("-> Valor maximo: " + str(maximo))
-
-# End of program
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+print("Min value: " + str(min))
+print("Max value: " + str(max))
