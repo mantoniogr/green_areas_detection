@@ -2,15 +2,15 @@ import cv2
 import numpy as np
 
 # Image
-imgName = raw_input('-> imgName: ')
+imgName = 'images/lena.png'
 img1 = cv2.imread(imgName)
-cv2.imshow("Test", img1)
+# cv2.imshow("Test", img1)
 
 # Get interest coordinates
-x1 = raw_input('-> x1: ')
-x2 = raw_input('-> x2: ')
-y1 = raw_input('-> y1: ')
-y2 = raw_input('-> y2: ')
+x1 = 0
+x2 = 100
+y1 = 0
+y2 = 100
 
 # Coordinates from str to inn
 x1 = int(x1)
@@ -34,8 +34,8 @@ for j in range(y1, y2):
            minimo = imgHSV[j,i,0]
 
 # Print min and max
-print "-> Valor minimo: " + str(minimo)
-print "-> Valor maximo: " + str(maximo)
+print("-> Valor minimo: " + str(minimo))
+print("-> Valor maximo: " + str(maximo))
 
 # End of program
 cv2.waitKey(0)
