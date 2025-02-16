@@ -47,10 +47,10 @@ RGB_MAX = 255
 h, s, v = cv2.split(imgHSV)
 h_scaled = (h * RGB_MAX / HSV_HUE_MAX).astype("uint8")
 imgHSV_scaled = cv2.merge([h_scaled, s, v])
-cv2.imwrite("hsv_image_scaled.png", imgHSV_scaled)
-cv2.imwrite("hue_channel.png", h_scaled)
-cv2.imwrite("saturation_channel.png", s)
-cv2.imwrite("value_channel.png", v)
+cv2.imwrite("images/hsv_image_scaled.png", imgHSV_scaled)
+cv2.imwrite("images/hue_channel.png", h_scaled)
+cv2.imwrite("images/saturation_channel.png", s)
+cv2.imwrite("images/value_channel.png", v)
 
 # Initialize min and max
 min_hue = np.min(roi_hue)
