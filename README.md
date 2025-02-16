@@ -99,9 +99,12 @@ MIT License
 
 If you use this tool in your research, please cite:
 ```bibtex
-@conference{paper_reference,
-    title={Methodology for Automatic Detection of Trees and Shrubs in Aerial Pictures from UAS},
-    author={MA Garduño-Ramón, JI Sánchez-Gómez, LA Morales Hernández, JP Benítez-Rangel, RA Osornio-Rios},
-    year={2016}
+@inproceedings{garduno2015automatic,
+    author    = {Garduño-Ramón, Marco Antonio and Sánchez-Gómez, Jesús Iván and Morales-Hernández, Luis Alberto and Benítez-Rangel, Juan Primo and Osornio-Ríos, Roque Alfredo},
+    title     = {Methodology for Automatic Detection of Trees and Shrubs in Aerial Pictures from UAS},
+    booktitle = {Proceedings of the 11th International Congress on Engineering (CONIIN 2015)},
+    year      = {2015},
+    month     = {May},
+    address   = {Querétaro, Mexico},
 }
 ```
