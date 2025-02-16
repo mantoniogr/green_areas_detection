@@ -1,33 +1,49 @@
+"""
+Color segmentation script that identifies pixels within a specific Hue range
+in HSV color space and modifies them. The modified image is saved as a new file.
+"""
+
 import cv2
 import numpy as np
+import argparse
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Color segmentation using HSV color space')
+    parser.add_argument('--input', default='images/lena.png', help='Input image path')
+    parser.add_argument('--output', default='images/result.png', help='Output image path')
+    parser.add_argument('--hue-min', type=int, default=133, help='Minimum Hue value')
+    parser.add_argument('--hue-max', type=int, default=168, help='Maximum Hue value')
+    return parser.parse_args()
+
+# Constants
+SATURATION_VALUE = 200
+
+# Parse arguments
+args = parse_args()
+img_path = args.input
+OUTPUT_PATH = args.output
+HUE_MIN = args.hue_min
+HUE_MAX = args.hue_max
 
 # Read image
-img = cv2.imread('images/lena.png')
+img = cv2.imread(img_path)
+if img is None:
+    raise FileNotFoundError(f"Could not load image: {img_path}")
 
 # Image from RGB to HSV
-imgHSV = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+modified_hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
 
-# Min and max H values
-min = 133
-max = 168
-
-# Initialize num
-num = 0
-
-# Look for pixels in H range and change values to 0
-for j in range(0, img.shape[0]):
-    for i in range(0, img.shape[1]):
-        if imgHSV[j,i,0] > min and imgHSV[j,i,0] < max:
-            imgHSV[j,i,0] = 0
-            imgHSV[j,i,1] = 200
-            num = num + 1
+# Replace the manual pixel iteration with vectorized operations
+hue_mask = (modified_hsv[:,:,0] > HUE_MIN) & (modified_hsv[:,:,0] < HUE_MAX)
+modified_hsv[hue_mask, 0] = 0
+modified_hsv[hue_mask, 1] = SATURATION_VALUE
+num_pixels = np.sum(hue_mask)
 
 # Image from HSV to BGR
-imgBGR = cv2.cvtColor(imgHSV, cv2.COLOR_HSV2BGR)
+imgBGR = cv2.cvtColor(modified_hsv, cv2.COLOR_HSV2BGR)
 
 # Print count of pixels changed
-print("-> pixels: " + str(num))
+print("-> pixels: " + str(num_pixels))
 
 # Save image
-cv2.imwrite('images/result.png', imgBGR)
-
+cv2.imwrite(OUTPUT_PATH, imgBGR)
